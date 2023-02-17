@@ -19,12 +19,20 @@ class TodolistServiceImp implements TodolistService
         ]);
     }
 
-    public function getTodo(string $id): array
+    public function getTodo(): array
     {
-        return [];
+        return Session::get("todo", []);
     }
 
     public function removeTodo(string $id)
     {
+        $todo = Session::get("todo");
+        foreach ($todo as $key => $value) {
+            if ($value["id"] == $id) {
+                unset($todo[$key]);
+                break;
+            }
+        }
+        Session::put("todo", $todo);
     }
 }
