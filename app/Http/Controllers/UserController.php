@@ -15,7 +15,7 @@ class UserController extends Controller
     {
     }
 
-    public function Login(): Response
+    public function Login(Request $request): Response|RedirectResponse
     {
         return response()->view("user.login", [
             "title" => "Login"
@@ -34,7 +34,7 @@ class UserController extends Controller
         }
         if ($this->userService->login($user, $password)) {
             $request->session()->put("user", $user);
-            return redirect("/");
+            return redirect("/todo");
         }
         return response()->view("user.login", [
             "title" => "Login",
@@ -42,7 +42,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function doLogout()
+    public function doLogout(Request $request)
     {
+        if ($request->session()->get("user")) {
+            $request->session()->forget("user");
+            return response()->redirectTo("/login");
+        }
     }
 }

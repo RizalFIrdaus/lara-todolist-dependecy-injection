@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\TodolistController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\MemberMiddleware;
+use App\Http\Middleware\OnlyGuestMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +26,10 @@ Route::get("/template", function () {
 });
 
 Route::controller(UserController::class)->group(function () {
-    Route::get("/login", "Login");
-    Route::post("/login", "doLogin");
-    Route::post("/logout", "doLogout");
+    Route::get("/login", "Login")->middleware(OnlyGuestMiddleware::class);
+    Route::post("/login", "doLogin")->middleware(OnlyGuestMiddleware::class);
+    Route::post("/logout", "doLogout")->middleware(MemberMiddleware::class);
+});
+Route::middleware(MemberMiddleware::class)->controller(TodolistController::class)->group(function () {
+    Route::get("/todo", "index");
 });
