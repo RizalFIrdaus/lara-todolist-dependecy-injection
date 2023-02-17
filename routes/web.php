@@ -32,4 +32,6 @@ Route::controller(UserController::class)->group(function () {
 });
 Route::middleware(MemberMiddleware::class)->controller(TodolistController::class)->group(function () {
     Route::get("/todo", "index");
+    Route::post("/todo", "store");
+    Route::post("/todo/{id}/delete", "destroy");
 });

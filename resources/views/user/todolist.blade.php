@@ -31,7 +31,8 @@
             <p class="col-lg-10 fs-4">by <a target="_blank" href="https://www.github.com/rizalfirdaus">{{$user}}</a></p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/todolist">
+            <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/todo">
+                @csrf
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" name="todo" placeholder="todo">
                     <label for="todo">Todo</label>
@@ -54,13 +55,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Belajar Laravel Dasar</td>
-                    <td>
-                        <button class="w-100 btn btn-lg btn-danger" type="submit">Remove</button>
-                    </td>
-                </tr>
+                @foreach ($todo as $item)
+                    <tr>
+                        <th scope="row">{{ $item["id"] }}</th>
+                        <td>{{ $item["todo"] }}</td>
+                        <td>
+                            <form action="/todo/{{ $item["id"] }}/delete">
+                                @csrf
+                                <button class="w-100 btn btn-lg btn-danger" type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
