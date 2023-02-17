@@ -40,7 +40,7 @@ class TodolistController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         if (empty($id)) {
             return response()->view("user.todolist", [
@@ -49,5 +49,6 @@ class TodolistController extends Controller
             ]);
         }
         $this->todolistService->removeTodo($id);
+        return redirect("/todo");
     }
 }
