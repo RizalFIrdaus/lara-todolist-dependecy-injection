@@ -21,7 +21,7 @@ class UserControllerTest extends TestCase
         $this->post("/login", [
             "user" => "admin",
             "password" => "rahasia"
-        ])->assertRedirect("/")
+        ])->assertRedirect("/todo")
             ->assertSessionHas("user")
             ->assertDontSeeText("Login");
     }

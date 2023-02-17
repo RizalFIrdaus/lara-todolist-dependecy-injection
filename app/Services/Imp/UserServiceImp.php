@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\UserServiceImp;
+namespace App\Services\Imp;
 
 use App\Services\UserService;
 
