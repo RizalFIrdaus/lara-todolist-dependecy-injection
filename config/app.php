@@ -195,7 +195,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\UserServiceProvider::class,
-        App\Providers\TodolistServiceProvider::class
+        App\Providers\TodolistServiceProvider::class,
+        App\Providers\UserRepositoryProvider::class
 
     ],
 
