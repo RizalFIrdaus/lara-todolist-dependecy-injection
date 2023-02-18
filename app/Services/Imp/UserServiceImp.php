@@ -20,16 +20,18 @@ class UserServiceImp implements UserService
         $this->userRepository = App::make(UserRepository::class);
     }
 
-    public function login(string $user, string $password): bool
+    public function login(Request $request): User
     {
-        if (!isset($this->users[$user])) return false;
-        $correctPassword = $this->users[$user];
-        return $password == $correctPassword ? true : false;
+        $request->validate([
+            "username" => "required|min:6",
+            "password" => "required|min:8"
+        ]);
+        return $this->userRepository->getUser($request->username);
     }
 
     public function register(Request $request): User
     {
-        $reponse = $request->validate([
+        $request->validate([
             "name" => "required|min:3",
             "username" => "required|min:6",
             "password" => "required|min:8"

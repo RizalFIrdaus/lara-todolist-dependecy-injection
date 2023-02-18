@@ -18,18 +18,29 @@ class UserRepositoryImp implements UserRepository
         return $user;
     }
 
-    public function getUser(string $id): ?User
+    public function getUser(string $username)
     {
-        return new User();
+        $user = User::where("username", $username)->first();
+        if (!$user) return null;
+        return $user;
     }
 
-    public function deleteUser(string $id): bool
+    public function deleteUser(string $username): bool
     {
+        $user = User::where("username", $username)->first();
+        if (!$user) return false;
+        $user->delete();
         return true;
     }
-    public function updateUser(Request $request, string $id): bool
+    public function updateUser(User $users, string $username): ?User
     {
-        return true;
+        $user = User::where("username", $username)->first();
+        if (!$user) return null;
+        $user->name = $users->name;
+        $user->username = $users->username;
+        $user->password = $users->password;
+        $user->update();
+        return $user;
     }
     public function deleteAll(): void
     {

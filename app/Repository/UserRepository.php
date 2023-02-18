@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 interface UserRepository
 {
     public function saveUser(User $user): User;
-    public function getUser(string $id): ?User;
-    public function updateUser(Request $request, string $id): bool;
-    public function deleteUser(string $id): bool;
+    public function getUser(string $username);
+    public function updateUser(User $users, string $username): ?User;
+    public function deleteUser(string $username): bool;
     public function deleteAll(): void;
 }
