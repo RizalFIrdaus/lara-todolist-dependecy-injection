@@ -11,10 +11,12 @@
 </head>
 <body>
 <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-    @if (isset($error))
+    @if ($errors->any())
         <div class="row">
             <div class="alert alert-danger" role="alert">
-                {{ $error }}
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
             </div>
         </div>
     @endif

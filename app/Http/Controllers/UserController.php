@@ -56,4 +56,16 @@ class UserController extends Controller
             "title" => "Register"
         ]);
     }
+
+    public function doRegister(Request $request): Respoinse|RedirectResponse
+    {
+        $register = $this->userService->register($request);
+        if (!$register) {
+            return response()->view("user.register", [
+                "title" => "Login",
+                "error" => "Username or password is wrong"
+            ]);
+        }
+        return response()->redirectTo("/login");
+    }
 }

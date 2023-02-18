@@ -29,7 +29,7 @@ class UserServiceImp implements UserService
 
     public function register(Request $request): User
     {
-        $request->validate([
+        $reponse = $request->validate([
             "name" => "required|min:3",
             "username" => "required|min:6",
             "password" => "required|min:8"
