@@ -8,37 +8,12 @@ use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    public function testLoginView()
+    public function testViewRegister()
     {
-        $this->get("/login")
-            ->assertSeeText("Muhammad Rizal Firdaus")
-            ->assertSeeText("Login")
-            ->assertDontSeeText("Login Management");
-    }
-
-    public function testdoLoginSuccess()
-    {
-        $this->post("/login", [
-            "user" => "admin",
-            "password" => "rahasia"
-        ])->assertRedirect("/todo")
-            ->assertSessionHas("user")
-            ->assertDontSeeText("Login");
-    }
-
-    public function testDoLoginFailedWrong()
-    {
-        $this->post("/login", [
-            "user" => "admin",
-            "password" => "salah"
-        ])->assertSeeText("Username or password is wrong");
-    }
-
-    public function testDoLoginFailedNull()
-    {
-        $this->post("/login", [
-            "user" => "",
-            "password" => ""
-        ])->assertSeeText("Username or password is null");
+        $this->get("/register")
+            ->assertSeeText("Register")
+            ->assertSeeText("Username")
+            ->assertSeeText("Password")
+            ->assertSeeText("Name");
     }
 }

@@ -49,4 +49,11 @@ class UserController extends Controller
             return response()->redirectTo("/login");
         }
     }
+
+    public function Register(): Response
+    {
+        return response()->view("user.register", [
+            "title" => "Register"
+        ]);
+    }
 }

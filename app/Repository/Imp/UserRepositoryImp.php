@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 
 class UserRepositoryImp implements UserRepository
 {
-    public function saveUser(Request $request)
+    public function saveUser(User $users): User
     {
         $user = new User();
-        $user->name = $request->input("name");
-        $user->username = $request->input("username");
-        $user->password = $request->input("password");
+        $user->name = $users->name;
+        $user->username = $users->username;
+        $user->password = $users->password;
         $user->save();
+        return $user;
     }
 
     public function getUser(string $id): ?User
@@ -22,12 +23,16 @@ class UserRepositoryImp implements UserRepository
         return new User();
     }
 
-    public function deleteUser(User $user): bool
+    public function deleteUser(string $id): bool
     {
         return true;
     }
-    public function updateUser(User $user): bool
+    public function updateUser(Request $request, string $id): bool
     {
         return true;
+    }
+    public function deleteAll(): void
+    {
+        User::truncate();
     }
 }

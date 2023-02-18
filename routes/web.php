@@ -28,6 +28,7 @@ Route::get("/template", function () {
 Route::controller(UserController::class)->group(function () {
     Route::get("/login", "Login")->middleware(OnlyGuestMiddleware::class);
     Route::post("/login", "doLogin")->middleware(OnlyGuestMiddleware::class);
+    Route::get("/register", "Register")->middleware(OnlyGuestMiddleware::class);
     Route::post("/logout", "doLogout")->middleware(MemberMiddleware::class);
 });
 Route::middleware(MemberMiddleware::class)->controller(TodolistController::class)->group(function () {
