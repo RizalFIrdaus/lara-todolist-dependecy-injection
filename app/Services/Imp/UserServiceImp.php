@@ -8,6 +8,7 @@ use App\Services\UserService;
 use App\Repository\UserRepository;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UserServiceImp implements UserService
 {
@@ -20,13 +21,19 @@ class UserServiceImp implements UserService
         $this->userRepository = App::make(UserRepository::class);
     }
 
-    public function login(Request $request): User
+    public function login(Request $request): ?User
     {
         $request->validate([
             "username" => "required|min:6",
             "password" => "required|min:8"
         ]);
-        return $this->userRepository->getUser($request->username);
+        $user = $this->userRepository->getUser($request->username);
+        if (!$user) return null;
+        if (Hash::check($request->password, $user->password)) {
+            Session::put("user", $user->username);
+            return $user;
+        }
+        return null;
     }
 
     public function register(Request $request): User
