@@ -11,10 +11,12 @@
 </head>
 <body>
 <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-    @if (isset($error))
+    @if ($errors->any())
         <div class="row">
             <div class="alert alert-danger" role="alert">
-                {{ $error }}
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
             </div>
         </div>
     @endif
@@ -27,13 +29,14 @@
             <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/login">
                 @csrf
                 <div class="form-floating mb-3">
-                    <input name="user" type="text" class="form-control" id="user" placeholder="id">
-                    <label for="user">User</label>
+                    <input name="username" type="text" class="form-control" id="username" placeholder="username" value="{{ old("username") }}">
+                    <label for="username">Username</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input name="password" type="password" class="form-control" id="password" placeholder="password">
                     <label for="password">Password</label>
                 </div>
+                <p><u><a href="/register">Signup ?</a></u></p>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
             </form>
         </div>

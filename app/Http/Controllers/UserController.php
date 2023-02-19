@@ -24,22 +24,11 @@ class UserController extends Controller
 
     public function doLogin(Request $request): RedirectResponse|Response
     {
-        $user = $request->input("user");
-        $password = $request->input("password");
-        if (empty($user) || empty($password)) {
-            return response()->view("user.login", [
-                "title" => "Login",
-                "error" => "Username or password is null"
-            ]);
+        $user = $this->userService->login($request);
+        if (!$user) {
+            return redirect()->back()->withErrors(["username" => "Username or password is wrong !"]);
         }
-        if ($this->userService->login($user, $password)) {
-            $request->session()->put("user", $user);
-            return redirect("/todo");
-        }
-        return response()->view("user.login", [
-            "title" => "Login",
-            "error" => "Username or password is wrong"
-        ]);
+        return redirect("/todo");
     }
 
     public function doLogout(Request $request)

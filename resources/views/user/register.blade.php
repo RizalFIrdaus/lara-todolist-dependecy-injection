@@ -40,6 +40,7 @@
                     <input name="password" type="password" class="form-control" id="password" placeholder="password">
                     <label for="password">Password</label>
                 </div>
+                <p><u><a href="/login">Already have account ?</a></u></p>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
             </form>
         </div>

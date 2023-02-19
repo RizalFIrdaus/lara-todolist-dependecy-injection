@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Repository\UserRepository;
-use App\Services\UserService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Repository\UserRepository;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserServiceTest extends TestCase
 {
@@ -39,5 +40,19 @@ class UserServiceTest extends TestCase
         self::assertEquals("rizal", $response->name);
         self::assertEquals("rizal300500", $response->username);
         self::assertTrue(Hash::check("rizal300500000", $response->password));
+    }
+    public function testLogin()
+    {
+        $user = new User();
+        $user->name = "rizal";
+        $user->username = "rizal300500";
+        $user->password = Hash::make("rahasia123");
+        $this->userRepository->saveUser($user);
+        $request = new Request();
+        $request["username"] = "rizal300500";
+        $request["password"] = "rahasia123";
+        $response = $this->userService->login($request);
+        self::assertEquals("rizal300500", $response->username);
+        self::assertTrue(Hash::check("rahasia123", $response->password));
     }
 }
