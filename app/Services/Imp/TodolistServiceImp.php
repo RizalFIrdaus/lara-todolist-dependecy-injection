@@ -2,37 +2,33 @@
 
 namespace App\Services\Imp;
 
+use App\Models\Todo;
+use App\Repository\TodolistRepository;
 use App\Services\TodolistService;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class TodolistServiceImp implements TodolistService
 {
-    public function saveTodo(string $id, string $todo): void
+    public function __construct(private TodolistRepository $todolistRepository)
     {
-        if (!Session::get("todo")) {
-            Session::put("todo", []);
-        }
-
-        Session::push("todo", [
-            "id" => $id,
-            "todo" => $todo
-        ]);
     }
-
-    public function getTodo(): array
+    public function saveTodo(Request $request): void
     {
-        return Session::get("todo", []);
+        $todo = new Todo();
+        $todo->todo = $request->input("todo");
+        $this->todolistRepository->saveTodo($todo);
     }
-
+    public function getTodo(string $id): Todo
+    {
+        return $this->todolistRepository->getTodo($id);
+    }
     public function removeTodo(string $id)
     {
-        $todo = Session::get("todo");
-        foreach ($todo as $key => $value) {
-            if ($value["id"] == $id) {
-                unset($todo[$key]);
-                break;
-            }
-        }
-        Session::put("todo", $todo);
+        $this->todolistRepository->deleteTodo($id);
+    }
+
+    public function allTodo()
+    {
+        return $this->todolistRepository->allTodo();
     }
 }

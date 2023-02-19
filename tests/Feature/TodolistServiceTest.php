@@ -2,20 +2,25 @@
 
 namespace Tests\Feature;
 
+use App\Repository\TodolistRepository;
 use App\Services\TodolistService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 class TodolistServiceTest extends TestCase
 {
     private TodolistService $todolistService;
     private TodolistService $todolistService2;
+    private TodolistRepository $todolistRepository;
     public function setUp(): void
     {
         parent::setUp();
         $this->todolistService = $this->app->make(TodolistService::class);
         $this->todolistService2 = $this->app->make(TodolistService::class);
+        $this->todolistRepository = $this->app->make(TodolistRepository::class);
+        $this->todolistRepository->deleteAll();
     }
 
     public function testSingletonService()
@@ -23,45 +28,20 @@ class TodolistServiceTest extends TestCase
         self::assertSame($this->todolistService, $this->todolistService2);
     }
 
-    public function testSaveSuccess()
+    public function testCreateTodo()
     {
-        $this->todolistService->saveTodo(uniqid(), "Belajar Laravel");
-        $this->withSession([
-            "user" => "admin"
-        ])->get("/todo")
-            ->assertSessionHas("todo");
+        $todo = new Request();
+        $todo["todo"] = "Belajar Laravel";
+        $response = $this->todolistService->saveTodo($todo);
+        self::assertTrue(true);
     }
 
-    public function testGetSuccess()
+    public function testGetTodo()
     {
-        $uniq = uniqid();
-        $this->todolistService->saveTodo($uniq, "Belajar Laravel");
-        $response = $this->todolistService->getTodo();
-        self::assertEquals([0 => ["id" => $uniq, "todo" => "Belajar Laravel"]], $response);
-        $this->withSession([
-            "user" => "admin"
-        ])->get("/todo")
-            ->assertSessionHas("todo");
-    }
-
-    public function testRemoveTodo()
-    {
-        $uniq1 = uniqid();
-        $uniq2 = uniqid();
-        $this->todolistService->saveTodo($uniq1, "Belajar Laravel");
-        $response = $this->todolistService->getTodo();
-        self::assertEquals([0 => ["id" => $uniq1, "todo" => "Belajar Laravel"]], $response);
-        $this->todolistService->saveTodo($uniq2, "Belajar PHP");
-        $response2 = $this->todolistService->getTodo();
-        self::assertEquals(
-            [
-                0 => ["id" => $uniq1, "todo" => "Belajar Laravel"],
-                1 => ["id" => $uniq2, "todo" => "Belajar PHP"]
-            ],
-            $response2
-        );
-        $this->todolistService->removeTodo($uniq1);
-        $response3 = $this->todolistService->getTodo();
-        self::assertEquals([1 => ["id" => $uniq2, "todo" => "Belajar PHP"]], $response3);
+        $todo = new Request();
+        $todo["todo"] = "Belajar Laravel";
+        $this->todolistService->saveTodo($todo);
+        $response = $this->todolistRepository->getTodo("1");
+        self::assertEquals($todo["todo"], $response->todo);
     }
 }

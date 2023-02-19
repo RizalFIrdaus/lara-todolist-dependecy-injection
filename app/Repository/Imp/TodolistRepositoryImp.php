@@ -4,6 +4,7 @@ namespace App\Repository\Imp;
 
 use App\Models\Todo;
 use App\Repository\TodolistRepository;
+use Illuminate\Support\Facades\Session;
 
 class TodolistRepositoryImp implements TodolistRepository
 {
@@ -35,6 +36,12 @@ class TodolistRepositoryImp implements TodolistRepository
         if (!$todoList) return false;
         $todoList->delete();
         return true;
+    }
+
+    public function allTodo()
+    {
+        $session = Session::get("user");
+        return Todo::where("username", $session);
     }
 
     public function deleteAll(): void
