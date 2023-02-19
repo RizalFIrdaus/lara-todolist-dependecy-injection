@@ -28,7 +28,7 @@
     <div class="row align-items-center g-lg-5 py-5">
         <div class="col-lg-7 text-center text-lg-start">
             <h1 class="display-4 fw-bold lh-1 mb-3">Todolist</h1>
-            <p class="col-lg-10 fs-4">by <a target="_blank" href="https://www.github.com/rizalfirdaus">{{$user}}</a></p>
+            <p class="col-lg-10 fs-4">by <a target="_blank" href="https://www.github.com/rizalfirdaus">{{$user->name}}</a></p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
             <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/todo">
@@ -55,9 +55,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($todo as $item)
+                @foreach ($todo as $key => $item)
                     <tr>
-                        <th scope="row">{{ $item["id"] }}</th>
+                        <th scope="row">{{ $key+1 }}</th>
                         <td>{{ $item["todo"] }}</td>
                         <td>
                             <form method="post" action="/todo/{{ $item["id"] }}/delete" >

@@ -16,15 +16,21 @@ class TodolistRepositoryImp implements TodolistRepository
     }
     public function saveTodo(Todo $todo): Todo
     {
+        $user = Session::get("user");
+
         $todoList = new Todo();
+        $todoList->user_id = $user->id;
         $todoList->todo = $todo->todo;
         $todoList->save();
         return $todoList;
     }
     public function updateTodo(string $id, Todo $todo): ?Todo
     {
+        $user = Session::get("user");
+
         $todoList = $this->getTodo($id);
         if (!$todoList) return null;
+        $todoList->user_id = $user->id;
         $todoList->todo = $todo->todo;
         $todoList->update();
         return $todoList;
@@ -41,7 +47,7 @@ class TodolistRepositoryImp implements TodolistRepository
     public function allTodo()
     {
         $session = Session::get("user");
-        return Todo::where("username", $session);
+        return Todo::where("user_id", $session->id)->get();
     }
 
     public function deleteAll(): void

@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Session;
 
 class UserServiceImp implements UserService
 {
-    private array $users = ["admin" => "rahasia"];
 
     private UserRepository $userRepository;
 
@@ -30,7 +29,7 @@ class UserServiceImp implements UserService
         $user = $this->userRepository->getUser($request->username);
         if (!$user) return null;
         if (Hash::check($request->password, $user->password)) {
-            Session::put("user", $user->username);
+            Session::put("user", $user);
             return $user;
         }
         return null;

@@ -11,6 +11,6 @@ class Todo extends Model
 
     protected $table = "todo";
     protected $fillable = [
-        "todo"
+        "user_id", "todo"
     ];
 }
