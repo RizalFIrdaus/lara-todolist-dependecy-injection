@@ -45,7 +45,6 @@ class UserRepositoryTest extends TestCase
 
     public function testGetUserFound()
     {
-
         $this->userRepository->saveUser($this->user);
         $response = $this->userRepository->getUser($this->user->username);
         self::assertEquals($this->user->name, $response->name);
