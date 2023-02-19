@@ -23,6 +23,7 @@
         <form method="post" action="/logout">
             @csrf
             <button class="w-15 btn btn-lg btn-danger" type="submit">Sign Out</button>
+            <a class="w-15 btn btn-lg btn-success" href="/change-name">Change Name</a>
         </form>
     </div>
     <div class="row align-items-center g-lg-5 py-5">

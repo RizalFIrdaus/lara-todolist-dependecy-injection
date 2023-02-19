@@ -9,4 +9,5 @@ interface UserService
 {
     public function login(Request $request): ?User;
     public function register(Request $request): User;
+    public function changeName(Request $request): User;
 }

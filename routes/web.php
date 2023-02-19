@@ -31,6 +31,8 @@ Route::controller(UserController::class)->group(function () {
     Route::get("/register", "Register")->middleware(OnlyGuestMiddleware::class);
     Route::post("/register", "doRegister")->middleware(OnlyGuestMiddleware::class);
     Route::post("/logout", "doLogout")->middleware(MemberMiddleware::class);
+    Route::get("/change-name", "changeName")->middleware(MemberMiddleware::class);
+    Route::post("/change-name", "doChangeName")->middleware(MemberMiddleware::class);
 });
 Route::middleware(MemberMiddleware::class)->controller(TodolistController::class)->group(function () {
     Route::get("/todo", "index");

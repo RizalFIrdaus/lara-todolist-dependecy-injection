@@ -49,4 +49,18 @@ class UserServiceImp implements UserService
         $this->userRepository->saveUser($user);
         return $user;
     }
+
+    public function changeName(Request $request): User
+    {
+        $request->validate([
+            "name" => "required|min:3",
+        ]);
+        $user_login = Session::get("user");
+        $user = $this->userRepository->getUser($user_login->username);
+        $user->name = $request->input("name");
+        $user->update();
+        Session::forget("user");
+        Session::put(["user" => $user]);
+        return $user;
+    }
 }

@@ -6,6 +6,7 @@ use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -56,5 +57,20 @@ class UserController extends Controller
             ]);
         }
         return response()->redirectTo("/login");
+    }
+
+    public function changeName(): Response|RedirectResponse
+    {
+        $user = Session::get("user");
+        return response()->view("user.changeName", [
+            "title" => "Change Name",
+            "user" => $user
+        ]);
+    }
+
+    public function doChangeName(Request $request): Response|RedirectResponse
+    {
+        $this->userService->changeName($request);
+        return redirect()->back();
     }
 }
