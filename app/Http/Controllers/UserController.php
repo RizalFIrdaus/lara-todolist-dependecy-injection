@@ -73,4 +73,26 @@ class UserController extends Controller
         $this->userService->changeName($request);
         return redirect()->back();
     }
+
+    public function changePassword(): Response|RedirectResponse
+    {
+        $user = Session::get("user");
+        return response()->view("user.changePassword", [
+            "title" => "Change Password",
+            "user" => $user
+        ]);
+    }
+
+    public function doChangePassword(Request $request): Response|RedirectResponse
+    {
+        $request->validate([
+            "old_password" => "required|min:8",
+            "new_password" => "required|min:8",
+            "re_password" => "required|min:8",
+        ]);
+
+        $user = $this->userService->changePassword($request);
+        if (!$user) return redirect()->back()->withErrors(["password" => "Password is wrong !"]);
+        return redirect()->back();
+    }
 }

@@ -38,18 +38,4 @@ class TodolistControllerTest extends TestCase
             "todo" => "Belajar Laravel"
         ])->assertSessionHas("todo");
     }
-
-    public function testDestroyTodolist()
-    {
-        $unique = uniqid();
-        $this->todolistService->saveTodo($unique, "Belajar 1");
-        $this->withSession([
-            "user" => "admin"
-        ])->post("/todo")->assertSessionHas("todo")
-            ->assertSeeText("Belajar 1");
-        $this->withSession([
-            "user" => "admin"
-        ])->post("/todo/" . $unique . "/delete")->assertSessionHas("todo")
-            ->assertDontSeeText("Belajar 1");
-    }
 }

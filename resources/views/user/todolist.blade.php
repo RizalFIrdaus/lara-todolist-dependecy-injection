@@ -56,7 +56,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($todo as $key => $item)
+                @forelse ($todo as $key => $item)
                     <tr>
                         <th scope="row">{{ $key+1 }}</th>
                         <td>{{ $item["todo"] }}</td>
@@ -67,7 +67,11 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="3" class="text-center">Lets add some todo</td>
+                </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>

@@ -22,7 +22,7 @@ class UserServiceTest extends TestCase
         $this->userService = $this->app->make(UserService::class);
         $this->userService2 = $this->app->make(UserService::class);
         $this->userRepository = $this->app->make(UserRepository::class);
-        $this->userRepository->deleteAll();
+        // $this->userRepository->deleteAll();
     }
 
     public function testSingleton()

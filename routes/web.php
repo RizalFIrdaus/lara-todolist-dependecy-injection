@@ -33,6 +33,8 @@ Route::controller(UserController::class)->group(function () {
     Route::post("/logout", "doLogout")->middleware(MemberMiddleware::class);
     Route::get("/change-name", "changeName")->middleware(MemberMiddleware::class);
     Route::post("/change-name", "doChangeName")->middleware(MemberMiddleware::class);
+    Route::get("/change-password", "changePassword")->middleware(MemberMiddleware::class);
+    Route::post("/change-password", "doChangePassword")->middleware(MemberMiddleware::class);
 });
 Route::middleware(MemberMiddleware::class)->controller(TodolistController::class)->group(function () {
     Route::get("/todo", "index");

@@ -63,4 +63,20 @@ class UserServiceImp implements UserService
         Session::put(["user" => $user]);
         return $user;
     }
+
+    public function changePassword(Request $request): ?User
+    {
+        $user_login = Session::get("user");
+        $user = $this->userRepository->getUser($user_login->username);
+        if (!$user) return null;
+        if (Hash::check($request->input("old_password"), $user->password)) {
+            if ($request->input("re_password") == $request->input("new_password")) {
+                $user->password = Hash::make($request->input("new_password"));
+                $user->update();
+                return $user;
+            }
+            return null;
+        }
+        return null;
+    }
 }

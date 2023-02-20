@@ -54,4 +54,11 @@ class UserControllerTest extends TestCase
             ->get("/change-name")
             ->assertSeeText("Change Name");
     }
+    public function testChangePasswordAccount()
+    {
+        $get_user = $this->userRepository->getUser(6);
+        $this->withSession(["user" => $get_user])
+            ->get("/change-password")
+            ->assertSeeText("Change Password");
+    }
 }
